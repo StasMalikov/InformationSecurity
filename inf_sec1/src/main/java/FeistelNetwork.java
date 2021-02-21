@@ -91,19 +91,19 @@ public class FeistelNetwork {
     }
 
     private Bytes cyclicShiftLeft64(Bytes bytes, int t) {
-        return Bytes.from(bytes).leftShift(t).or(Bytes.from(bytes).rightShift(64 - t)); //((x << t) | (x >> (64 - t)));
+        return Bytes.from(bytes).leftShift(t).or(Bytes.from(bytes).rightShift(64 - t));
     }
 
     private Bytes cyclicShiftRight64(Bytes bytes, int t) {
-        return Bytes.from(bytes).rightShift(t).or(Bytes.from(bytes).leftShift(64 - t)); //((x >> t) | (x << (64 - t)));
+        return Bytes.from(bytes).rightShift(t).or(Bytes.from(bytes).leftShift(64 - t));
     }
 
     private Bytes cyclicShiftLeft32(Bytes bytes, int t) {
-        return Bytes.from(bytes).leftShift(t).or(Bytes.from(bytes).rightShift(32 - t)); //((x << t) | (x >> (32 - t)));
+        return Bytes.from(bytes).leftShift(t).or(Bytes.from(bytes).rightShift(32 - t));
     }
 
     private Bytes cyclicShiftRight32(Bytes bytes, int t) {
-        return Bytes.from(bytes).rightShift(t).or(Bytes.from(bytes).leftShift(32 - t)); //((x >> t) | (x << (32 - t)));
+        return Bytes.from(bytes).rightShift(t).or(Bytes.from(bytes).leftShift(32 - t));
     }
 
     private Bytes keyGenerator(int i) {

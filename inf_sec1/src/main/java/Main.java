@@ -16,10 +16,9 @@ public class Main {
 
         List<Bytes> data = new ArrayList<>();
 
-
         int blocks = inputBytes.length()/8;
         blocks += inputBytes.length()%8 > 0 ? 1 : 0;
-        //data.add(inputBytes.resize(8));
+
         for (int i = 0; i < blocks - 1; i++) {
             data.add(inputBytes.copy(i*8, 8));
         }
@@ -34,26 +33,9 @@ public class Main {
 
         int rounds = 8;
         FeistelNetwork feistelNetwork = new FeistelNetwork(rounds, data);
+
         Bytes encryptedData = feistelNetwork.encrypt();
         Bytes decryptedData = feistelNetwork.decrypt();
-//        Bytes test;
-//        if (blocks ==1) {
-//            test = data.get(0).resize(inputBytes.length()%8);
-//        } else {
-//            test = data.get(0);
-//        }
-//
-//        for (int i = 1; i < blocks; i++) {
-//            if(i == blocks -1) {
-//                test = test.append(data.get(i).resize(inputBytes.length()%8));
-//            } else {
-//                test = test.append(data.get(i));
-//            }
-//        }
-
-        //System.out.println("    Input: " + Arrays.toString(inputBytes.toCharArray(StandardCharsets.ISO_8859_1)));
-        //System.out.println("Encrypted: " + Arrays.toString(encryptedData.toCharArray(StandardCharsets.ISO_8859_1)));
-        //System.out.println("Decrypted: " + Arrays.toString(decryptedData.toCharArray(StandardCharsets.ISO_8859_1)));
 
         System.out.println("    Input: " + charArrToStr(inputBytes.toCharArray(StandardCharsets.ISO_8859_1)));
         System.out.println("Encrypted: " + charArrToStr(encryptedData.toCharArray(StandardCharsets.ISO_8859_1)));
@@ -67,5 +49,4 @@ public class Main {
         }
         return result;
     }
-
 }
