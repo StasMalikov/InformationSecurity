@@ -17,7 +17,7 @@ public class Main {
         List<Bytes> data = new ArrayList<>();
 
         int blocks = inputBytes.length()/8;
-        blocks += inputBytes.length()%8 > 0 ? 1 : 0;
+        blocks += inputBytes.length() % 8 > 0 ? 1 : 0;
 
         for (int i = 0; i < blocks - 1; i++) {
             data.add(inputBytes.copy(i*8, 8));
@@ -40,8 +40,8 @@ public class Main {
         Bytes encryptedDataCBC = feistelNetwork.encryptCBC();
         Bytes decryptedDataCBC = feistelNetwork.decryptCBC();
 
-        Bytes encryptedDataOFB = feistelNetwork.encryptOFB();
-        Bytes decryptedDataOFB = feistelNetwork.decryptOFB();
+        Bytes encryptedDataCFB = feistelNetwork.encryptCFB();
+        Bytes decryptedDataCFB = feistelNetwork.decryptCFB();
 
 
         System.out.println("    Input: " + charArrToStr(inputBytes.toCharArray(StandardCharsets.ISO_8859_1)));
@@ -51,8 +51,8 @@ public class Main {
         System.out.println("EncryptedCBC: " + charArrToStr(encryptedDataCBC.toCharArray(StandardCharsets.ISO_8859_1)));
         System.out.println("DecryptedCBC: " + charArrToStr(decryptedDataCBC.toCharArray(StandardCharsets.ISO_8859_1)));
         System.out.println("---");
-        System.out.println("EncryptedOFB: " + charArrToStr(encryptedDataOFB.toCharArray(StandardCharsets.ISO_8859_1)));
-        System.out.println("DecryptedOFB: " + charArrToStr(decryptedDataOFB.toCharArray(StandardCharsets.ISO_8859_1)));
+        System.out.println("EncryptedCFB: " + charArrToStr(encryptedDataCFB.toCharArray(StandardCharsets.ISO_8859_1)));
+        System.out.println("DecryptedCFB: " + charArrToStr(decryptedDataCFB.toCharArray(StandardCharsets.ISO_8859_1)));
     }
 
     public static String charArrToStr(char[] arr) {

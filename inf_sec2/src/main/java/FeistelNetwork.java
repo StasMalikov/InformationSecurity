@@ -18,7 +18,7 @@ public class FeistelNetwork {
 
     List<Bytes> encryptedDataListCBC;
 
-    List<Bytes> encryptedDataListOFB;
+    List<Bytes> encryptedDataListCFB;
 
     private Bytes IV;
 
@@ -57,17 +57,18 @@ public class FeistelNetwork {
         return result;
     }
 
-    public Bytes encryptOFB() {
-        encryptedDataListOFB = new ArrayList<>();
+
+    public Bytes encryptCFB() {
+        encryptedDataListCFB = new ArrayList<>();
 
         Bytes block = encryptBlock(IV);
-        encryptedDataListOFB.add(block.xor(data.get(0)));
-        Bytes result = encryptedDataListOFB.get(0);
+        encryptedDataListCFB.add(block.xor(data.get(0)));
+        Bytes result = encryptedDataListCFB.get(0);
 
         for (int i = 1; i < data.size(); i++) {
-            block = encryptBlock(block);
-            encryptedDataListOFB.add(block.xor(data.get(i)));
-            result = result.append(encryptedDataListOFB.get(i));
+            block = encryptBlock(encryptedDataListCFB.get(i - 1));
+            encryptedDataListCFB.add(block.xor(data.get(i)));
+            result = result.append(encryptedDataListCFB.get(i));
         }
 
         return result;
@@ -114,18 +115,20 @@ public class FeistelNetwork {
         return result;
     }
 
-    public Bytes decryptOFB() {
+
+    public Bytes decryptCFB() {
         Bytes block = encryptBlock(IV);
 
-        Bytes result = block.xor(encryptedDataListOFB.get(0));
+        Bytes result = block.xor(encryptedDataListCFB.get(0));
 
-        for (int i = 1; i < encryptedDataListOFB.size(); i++) {
-            block = encryptBlock(block);
-            result = result.append(block.xor(encryptedDataListOFB.get(i)));
+        for (int i = 1; i < encryptedDataListCFB.size(); i++) {
+            block = encryptBlock(encryptedDataListCFB.get(i - 1));
+            result = result.append(block.xor(encryptedDataListCFB.get(i)));
         }
 
         return result;
     }
+
 
     public Bytes decryptBlock(Bytes block) {
         Bytes L_i = block.copy(0, 4);
