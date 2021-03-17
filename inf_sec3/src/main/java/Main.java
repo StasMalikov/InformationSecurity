@@ -14,17 +14,66 @@ public class Main {
         int count = in.nextInt();
         MyRandom random = new MyRandom();
 
-        List<Double> result1 = random.generate(count);
+        MyParams params1 = new MyParams(8, 9, 1, 12);
+        MyParams params2 = new MyParams(10, 7, 7, 7);
 
-        MyParams params1 = new MyParams(2, 10, 10, 10);
-        List<Double> result2= random.generate(count,params1);
+        List<Long> result1 = random.generate(count);
+        List<Long> result2 = random.generate(count, params1);
+        List<Long> result3 = random.generate(count, params2);
 
-        System.out.println(result1.toString());
-        System.out.println(result2.toString());
-        //System.out.println(result.stream().sorted().collect(Collectors.toList()).toString());
+        System.out.println("result1 " + result1.toString());
+        test1(result1);
+        System.out.println("result3 " + result3.toString());
+        test1(result3);
+        System.out.println("result2 " + result2.toString());
+        test1(result2);
     }
 
-    public static void test1(List<Long> testList) {
-        //testList.stream().filter(Long item -> item == )
+    public static <T> void test1(List<T> testList) {
+        long index = 0;
+        long maxIndex = 0;
+        int lastIndex = 0;
+        T firstIn = null;
+        boolean continuously = false;
+        for (int i = 0; i < testList.size() - 1; i++) {
+            T current = testList.get(i);
+            for (int j = lastIndex > 0 ? lastIndex : i + 1; j < testList.size(); j++) {
+                if (current == testList.get(j)) {
+                    if(firstIn != null) {
+                        if (firstIn == testList.get(j)) {
+                            if(maxIndex < index) {
+                                maxIndex = index;
+                            }
+                            continuously = false;
+                            index = 0;
+                            lastIndex = 0;
+                        }
+                    }
+
+                    if(!continuously) {
+                        lastIndex = j + 1;
+                        firstIn = testList.get(j);
+                    } else {
+                        lastIndex++;
+                    }
+                    continuously = true;
+                    index++;
+                    if(maxIndex < index) {
+                        maxIndex = index;
+                    }
+                    break;
+                } else {
+                    if(continuously) {
+                        if(maxIndex < index) {
+                            maxIndex = index;
+                        }
+                        continuously = false;
+                        index = 0;
+                        lastIndex = 0;
+                    }
+                }
+            }
+        }
+        System.out.println("Длина периода последовательности: " + maxIndex);
     }
 }
