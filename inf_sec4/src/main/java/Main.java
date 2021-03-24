@@ -11,36 +11,13 @@ import java.util.stream.Collectors;
 
 public class Main {
 
-    public static void main(String[] args) throws UnsupportedEncodingException {
+    public static void main(String[] args) {
         BigInteger e = BigInteger.valueOf(12341);
         BigInteger n = BigInteger.valueOf(Long.parseLong("565570077646207"));
+        String encodedText = "277140870674302,260217431481485,329310844916399,448964498705119";
 
-        BigInteger p = BigInteger.valueOf(1546379);
-        BigInteger q = BigInteger.valueOf(365738333);
+        RSA rsa = new RSA();
 
-        BigInteger phi = p.subtract(BigInteger.valueOf(-1)).multiply(q.subtract(BigInteger.valueOf(-1)));
-        System.out.println("phi = " + phi);
-
-        BigInteger d = BigInteger.valueOf(143672396238821L);
-        System.out.println("d = " + d);
-
-        String[] c_text = "277140870674302,260217431481485,329310844916399,448964498705119".split(",");
-
-        StringBuilder text = new StringBuilder();
-
-        for (int i = 0; i < c_text.length; i++) {
-            BigInteger c_msg = BigInteger.valueOf(Long.parseLong(c_text[i]));
-            BigInteger msg = c_msg.modPow(d, n);
-            text.append(msg);
-        }
-        System.out.println(parse_str(text.toString()));
-    }
-
-    public static String parse_str(String string) {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < string.length()/2; i++) {
-            result.append((char) Integer.parseInt(string.substring(i*2, i*2 + 2)));
-        }
-        return result.toString();
+        System.out.println(rsa.decode(encodedText, e, n));
     }
 }
